@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+</head>
+<body>
+
+<h1>
+{% block title_content %}
+Регистрация
+{% endblock %}
+</h1>
+
+{% block content %}
+<form action="" method="POST">
+    {{ forms.csrf_token() }}
+    {% for field in forms if field.widget.input_type != 'hidden'%}
+        {{ field.label(size=32) }} <br>
+        {{ field }} <br>
+    {% endfor %}
+    <button type="submit">Sing in</button>
+</form>
+{% endblock%}
+
+</body>
+</html>
