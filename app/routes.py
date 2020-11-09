@@ -32,7 +32,7 @@ def login():
 
 @app.route('/logout')
 def logout():
-    login_user(current_user)
+    logout_user()
     return redirect(url_for('index'))
 
 
@@ -48,3 +48,9 @@ def registration():
         flash('Registration is success')
         return redirect(url_for('login'))
     return render_template('registration.html', forms=forms)
+
+
+@app.route('/profile/<id>')
+def profile(id):
+    user = User.query.filter_by(id=id).first_or_404()
+    return render_template('profile.html', user=user)

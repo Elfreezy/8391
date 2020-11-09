@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block title_content %}
+Profile
+{% endblock %}
+
+{% block content %}
+Name {% if user.username %} user.username {% else %} not found {% endif %}
+{% endblock %}
