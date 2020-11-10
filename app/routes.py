@@ -1,10 +1,11 @@
 from flask import render_template, request, redirect, url_for, flash
-from flask_login import current_user, logout_user, login_user
+from flask_login import current_user, logout_user, login_user, login_required
 from werkzeug.urls import url_parse
+from datetime import datetime
 
 from app import app, db
-from app.forms import Registration, Login
-from app.models import User
+from app.forms import Registration, Login, PostForm
+from app.models import User, Post
 
 
 @app.route('/')
@@ -31,6 +32,7 @@ def login():
 
 
 @app.route('/logout')
+@login_required
 def logout():
     logout_user()
     return redirect(url_for('index'))
@@ -53,4 +55,60 @@ def registration():
 @app.route('/profile/<id>')
 def profile(id):
     user = User.query.filter_by(id=id).first_or_404()
-    return render_template('profile.html', user=user)
+    posts = user.posts
+    return render_template('profile.html', user=user, posts=posts)
+
+
+@app.route('/create_post', methods=['POST', 'GET'])
+@login_required
+def create_post():
+    form = PostForm()
+    if form.validate_on_submit() and request.method == 'POST':
+        post = Post(title=form.title.data, body=form.body.data, author=current_user)
+        db.session.add(post)
+        db.session.commit()
+        return redirect(url_for('posts'))
+    return render_template('create_post.html', form=form)
+
+
+@app.route('/posts')
+@login_required
+def posts():
+    posts = Post.query.all()
+    return render_template('posts.html', posts=posts)
+
+
+@app.route('/edit_post/<slug>', methods=['POST', 'GET'])
+def edit_post(slug):
+    id = request.args.get('id')
+    post = Post.query.filter_by(id=id).first_or_404()
+    form = PostForm(formdata=request.form, obj=post)
+    if form.validate_on_submit() and request.method == 'POST':
+        post.title, post.body, post.slug = form.title.data, form.body.data, Post.slugy(form.title.data)
+        post.created = datetime.utcnow()
+        db.session.add(post)
+        db.session.commit()
+        flash('Success')
+        return redirect(url_for('post', slug=post.slug, id=post.id))
+    return render_template('edit_post.html', form=form)
+
+
+@app.route('/delete/<slug>', methods=['POST', 'GET'])
+def delete_post(slug):
+    id = request.args.get('id')
+    if id and request.method == 'GET':
+        print('-----')
+        post = Post.query.filter_by(id=id).first()
+        db.session.delete(post)
+        db.session.commit()
+        flash('Delete is success')
+        return redirect(url_for('profile', id=current_user.id))
+    return redirect(url_for('index'))
+
+
+@app.route('/post/<slug>')
+@login_required
+def post(slug):
+    id = request.args.get('id')
+    post = Post.query.filter_by(id=id).first()
+    return render_template('post.html', post=post)

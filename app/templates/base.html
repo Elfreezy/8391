@@ -18,6 +18,8 @@
 
             {% else %}
                 <a class="nav-item nav-link" href="{{ url_for('profile', id=current_user.id) }}">Profile</a>
+                <a class="nav-item nav-link" href="{{ url_for('posts') }}">Posts</a>
+                <a class="nav-item nav-link" href="{{ url_for('create_post') }}">Create posts</a>
             {% endif %}
         </div>
         <div class="navbar-nav">
@@ -35,7 +37,7 @@
 
 </nav>
 
-<div class="content container">
+<div class="content container col-md-2">
     <h1>
         {% block title_content %}
             Привет, дружок
@@ -45,7 +47,7 @@
 
 
 
-<div class="content container">
+<div class="content container mx-auto" style="width: 1200px;">
     {% block content %}
     {% endblock %}
 </div>

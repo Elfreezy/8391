@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title_content %}
+{{ post.title }}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="card" style="width: 50rem;">
+        <div class="card-body">
+            <h6 class="card-subtitle mb-2 text-muted"> {{ post.get_timestamp() }} </h6>
+            <p class="card-text"> {{ post.body }} </p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

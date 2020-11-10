@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title_content %}
+Edit post
+{% endblock %}
+
+{% block content %}
+<div class="container col-md-4">
+    <div class="">
+        <form action="" method="POST">
+            {{ form.csrf_token() }}
+            <div class="form-group">
+                <label>{{ form.title.label }}</label>
+                {{ form.title(class="form-control") }}
+            </div>
+            <div class="form-group">
+                <label>{{ form.body.label }}</label>
+                {{ form.body(class="form-control") }}
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField
+from wtforms import StringField, PasswordField, BooleanField, TextAreaField
 from wtforms.validators import DataRequired, ValidationError, Email, EqualTo
 
 from app.models import User
@@ -27,3 +27,8 @@ class Registration(FlaskForm):
         user = User.query.filter_by(login=login.data).first()
         if user is not None:
             raise ValidationError('Please use a different login')
+
+
+class PostForm(FlaskForm):
+    title = StringField('Title', validators=[DataRequired()])
+    body = TextAreaField('Body', validators=[DataRequired()])

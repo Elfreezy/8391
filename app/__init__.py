@@ -15,9 +15,9 @@ login.login_view = 'login'
 
 
 from app import models, routes
-from app.models import User
+from app.models import User, Post
 
 
 @app.shell_context_processor
 def make_shell_context():
-    return {'db': db, 'app': app, 'User': User}
+    return {'db': db, 'app': app, 'User': User, 'Post': Post}
