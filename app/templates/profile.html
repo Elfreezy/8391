@@ -22,7 +22,9 @@ Profile
             <div class="card-body">
                 <h4 class="card-title">{{ post.title }}</h4>
                 <p class="card-text">{{ post.body }}</p>
-                <a href="{{ url_for('post', slug=post.slug, id=post.id) }}" class="btn btn-primary">Read</a>
+                <a href="{{ url_for('posts.post', slug=post.slug, id=post.id) }}" class="btn btn-primary">Read</a>
+                <a href="{{ url_for('posts.edit_post', slug=post.slug, id=post.id) }}" class="btn btn-success">Edit</a>
+                <a href="{{ url_for('posts.delete_post', slug=post.slug, id=post.id) }}" class="btn btn-danger">Delete</a>
             </div>
         </div>
     {% endfor %}

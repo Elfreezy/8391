@@ -8,6 +8,10 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from app import db, login
 
 
+def slugy(text):
+    return slugify(text, separator='-', lowercase=True) + '-' + str(randint(0, 10 ** 10))
+
+
 class Post(db.Model):
     __tablename__ = 'post'
     id = db.Column(db.Integer, primary_key=True)
@@ -19,10 +23,7 @@ class Post(db.Model):
 
     def __init__(self, *args, **kwargs):
         super(Post, self).__init__(*args, **kwargs)
-        self.slug = self.slugy(self.title)
-
-    def slugy(text):
-        return slugify(text, separator='-', lowercase=True) + '-' + str(randint(0, 10 ** 10))
+        self.slug = slugy(self.title)
 
     def get_timestamp(self):
         return self.created.strftime("%d-%m-%Y %H:%M")

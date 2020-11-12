@@ -18,17 +18,17 @@
 
             {% else %}
                 <a class="nav-item nav-link" href="{{ url_for('profile', id=current_user.id) }}">Profile</a>
-                <a class="nav-item nav-link" href="{{ url_for('posts') }}">Posts</a>
-                <a class="nav-item nav-link" href="{{ url_for('create_post') }}">Create posts</a>
+                <a class="nav-item nav-link" href="{{ url_for('posts.posts') }}">Posts</a>
+                <a class="nav-item nav-link" href="{{ url_for('posts.create_post') }}">Create posts</a>
             {% endif %}
         </div>
         <div class="navbar-nav">
             {% if current_user.is_anonymous %}
-                <a class="nav-item nav-link" href="{{ url_for('login') }}">
+                <a class="nav-item nav-link" href="{{ url_for('auth.login') }}">
                     Login
                 </a>
             {% else %}
-                <a class="nav-item nav-link" href="{{ url_for('logout') }}">
+                <a class="nav-item nav-link" href="{{ url_for('auth.logout') }}">
                     Logout
                 </a>
             {% endif %}

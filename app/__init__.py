@@ -14,7 +14,14 @@ login = LoginManager(app)
 login.login_view = 'login'
 
 
-from app import models, routes
+from app.auth import auth
+from app.posts import posts
+app.register_blueprint(auth)
+app.register_blueprint(posts)
+
+
+from app import models
+from app import routes
 from app.models import User, Post
 
 
