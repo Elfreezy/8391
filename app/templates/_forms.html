@@ -1,0 +1,7 @@
+{% for field in forms if field.name not in ['submit', 'button', 'remember_me', 'csrf_token'] %}
+<div class="form-group">
+    <label>{{ field.label }}</label>
+    {{ field(class="form-control") }}
+</div>
+{% include '_errors.html' %}
+{% endfor %}

@@ -17,7 +17,7 @@ def login():
         user = User.query.filter_by(login=forms.login.data).first()
         if user is None or not user.check_password_hash(forms.password.data):
             flash('Invalid login or password')
-            return redirect(url_for('index'))
+            return redirect(url_for('auth.login'))
         login_user(user, remember=forms.remember_me.data)
         next_page = request.args.get('next')
         if not next_page or url_parse(next_page).netloc != '':
@@ -45,4 +45,5 @@ def registration():
         db.session.commit()
         flash('Registration is success')
         return redirect(url_for('auth.login'))
+
     return render_template('auth/registration.html', forms=forms)

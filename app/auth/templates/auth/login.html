@@ -18,17 +18,12 @@
 </div>
 
 <div class="container col-md-4">
+    {% include '_flash_error.html' %}
     <div class="">
         <form action="" method="POST">
             {{ forms.csrf_token() }}
-            <div class="form-group">
-                <label>{{ forms.login.label }}</label>
-                {{ forms.login(class="form-control") }}
-            </div>
-            <div class="form-group">
-                <label>{{ forms.password.label }}</label>
-                {{ forms.password(class="form-control") }}
-            </div>
+            {% include '_forms.html' %}
+
             <div class="form-group form-check">
                 {{ forms.remember_me(class="form-check-input") }}
                 <label class="form-check-label">{{ forms.remember_me.label }}</label>
