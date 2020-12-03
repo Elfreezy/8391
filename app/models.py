@@ -61,14 +61,6 @@ class Tag(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(140))
 
-    def get_posts(self, id):
-        posts = db.session.execute('SELECT post_id FROM tags WHERE tag_id = {}'.format(id))
-        result = []
-        for post in posts:
-            post_id = post[0]
-            result.append(post_id)
-        return result
-
     def delete_tag(self):
         db.session.delete(self)
         db.session.commit()

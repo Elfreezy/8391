@@ -10,7 +10,7 @@
         <div class="card-body">
             <h6 class="card-subtitle mb-2 text-muted"> {{ post.get_timestamp() }} </h6>
             {% for tag in tags %}
-                <a href="#" class="badge badge-dark">{{ tag.title }}</a>
+                <a href="{{ url_for('tags.tag_page', id=tag.id) }}" class="badge badge-dark">{{ tag.title }}</a>
             {% endfor %}
             <p class="card-text"> {{ post.body }} </p>
         </div>

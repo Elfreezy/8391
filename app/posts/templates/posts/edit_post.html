@@ -21,9 +21,9 @@ Edit post
                     <ul class="list-group list-group-flush">
                     {% for tag in tags %}
                         <li class="list-group-item">
-                            <a href="#" class="">{{ tag.title }}</a>
+                            <a href="{{ url_for('tags.tag_page', id=tag.id) }}" class="">{{ tag.title }}</a>
 <!--                            <button type="button" class="btn btn-outline-danger">Опасность</button>-->
-                            <a href="{{ url_for('posts.delete_tag', id=id, slug=slug, tag_id=tag.id) }}">
+                            <a href="{{ url_for('tags.delete_tag', id=id, slug=slug, tag_id=tag.id) }}">
                                 <button type="button" class="close" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>

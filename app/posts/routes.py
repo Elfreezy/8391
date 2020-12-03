@@ -5,7 +5,7 @@ from datetime import datetime
 
 from app import db
 from app.posts import posts as bp
-from app.models import Post, Tag, slugy
+from app.models import Post, slugy
 from app.posts.forms import PostForm
 
 
@@ -65,14 +65,3 @@ def post(slug):
     post = Post.query.filter_by(id=id).first()
     tags = post.tags
     return render_template('posts/post.html', post=post, tags=tags)
-
-
-@bp.route('/tag/delete/<slug>', methods=['POST', 'GET'])
-def delete_tag(slug):
-    id = request.args.get('id')
-    tag_id = request.args.get('tag_id')
-    if id and request.method == 'GET':
-        tag = Tag.query.filter_by(id=tag_id).first()
-        tag.delete_tag()
-        flash('Delete is success')
-    return redirect(url_for('posts.edit_post', id=id, slug=slug))

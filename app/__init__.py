@@ -16,8 +16,10 @@ login.login_view = 'login'
 
 from app.auth import auth
 from app.posts import posts
+from app.tags import tags
 app.register_blueprint(auth)
 app.register_blueprint(posts)
+app.register_blueprint(tags)
 
 
 # Отправка ошибки на почту
