@@ -20,11 +20,22 @@ app.register_blueprint(auth)
 app.register_blueprint(posts)
 
 
+# Отправка ошибки на почту
+if not app.debug:
+    import logging
+    from logging.handlers import SMTPHandler
+    mail_handler = SMTPHandler(mailhost=(app.config['SERVER'], app.config['MAIL_PORT']),
+                               fromaddr=app.config['MAIL_SERVER'],
+                               toaddrs=app.config['ADMINS'],
+                               subject='Your App Failed')
+    mail_handler.setLevel(logging.ERROR)
+    app.logger.addHandler(mail_handler)
+
 from app import models
 from app import routes
-from app.models import User, Post
+from app.models import User, Post, Tag
 
 
 @app.shell_context_processor
 def make_shell_context():
-    return {'db': db, 'app': app, 'User': User, 'Post': Post}
+    return {'db': db, 'app': app, 'User': User, 'Post': Post, 'Tag': Tag}

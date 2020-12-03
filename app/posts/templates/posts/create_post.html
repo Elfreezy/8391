@@ -14,6 +14,11 @@ Create post
                 {{ form.title(class="form-control") }}
             </div>
             <div class="form-group">
+                <label>{{ form.tags.label }}</label>
+                <input type="text" placeholder="Separators(',' ' ')" name="tags" class="form-control">
+<!--                {{ form.tags(class="form-control") }}-->
+            </div>
+            <div class="form-group">
                 <label>{{ form.body.label }}</label>
                 {{ form.body(class="form-control") }}
             </div>

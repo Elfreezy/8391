@@ -5,7 +5,7 @@ from datetime import datetime
 
 from app import db
 from app.posts import posts as bp
-from app.models import Post, slugy
+from app.models import Post, Tag, slugy
 from app.posts.forms import PostForm
 
 
@@ -17,6 +17,7 @@ def create_post():
         post = Post(title=form.title.data, body=form.body.data, author=current_user)
         db.session.add(post)
         db.session.commit()
+        post.set_tags(tags=form.tags.data)
         return redirect(url_for('posts.posts'))
     return render_template('posts/create_post.html', form=form)
 
@@ -36,11 +37,13 @@ def edit_post(slug):
     if form.validate_on_submit() and request.method == 'POST':
         post.title, post.body, post.slug = form.title.data, form.body.data, slugy(form.title.data)
         post.created = datetime.utcnow()
+        post.set_tags(tags=form.tags.data)
         db.session.add(post)
         db.session.commit()
         flash('Success')
         return redirect(url_for('posts.post', slug=post.slug, id=post.id))
-    return render_template('posts/edit_post.html', form=form)
+    form.tags.data = 'New_tags'
+    return render_template('posts/edit_post.html', form=form, id=post.id, slug=post.slug, tags=post.tags)
 
 
 @bp.route('/delete/<slug>', methods=['POST', 'GET'])
@@ -60,4 +63,16 @@ def delete_post(slug):
 def post(slug):
     id = request.args.get('id')
     post = Post.query.filter_by(id=id).first()
-    return render_template('posts/post.html', post=post)
+    tags = post.tags
+    return render_template('posts/post.html', post=post, tags=tags)
+
+
+@bp.route('/tag/delete/<slug>', methods=['POST', 'GET'])
+def delete_tag(slug):
+    id = request.args.get('id')
+    tag_id = request.args.get('tag_id')
+    if id and request.method == 'GET':
+        tag = Tag.query.filter_by(id=tag_id).first()
+        tag.delete_tag()
+        flash('Delete is success')
+    return redirect(url_for('posts.edit_post', id=id, slug=slug))
